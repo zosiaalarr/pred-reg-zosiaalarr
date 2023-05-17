@@ -24,7 +24,7 @@ test <- testing(my_split)
 
 data_folds <- vfold_cv(train, folds = 5, repeats = 3)
 
-save(train_1, test_2, test, train, data_folds, file = "attempt_1/results/initial_setup.rda")
+save(train_1, test_2, test, train, data_folds, file = "attempt_3/results/initial_setup.rda")
 
 
 
@@ -75,7 +75,7 @@ save(recipe_2, file = "results/recipe_2.rda")
 # third recipe, from lasso
 recipe_3 <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 + x111 + x116 + x135 + x146 +
                    x186 + x253 + x265 + x284 + x286 + x302 + x317 + x328 + x343 + x365 + x366 + x369 +
-                   x425 + x427 + x447, data = train_data) %>% 
+                   x425 + x427 + x447, data = train) %>% 
   #step_rm(id) %>% 
   step_nzv(all_predictors()) %>% 
   step_normalize(all_numeric_predictors()) %>% 
@@ -86,7 +86,7 @@ recipe_3 %>%
   prep() %>% 
   bake(new_data = NULL)
 
-save(recipe_3, file = "results/recipe_3.rda")
+save(recipe_3, file = "attempt_3/results/recipe_3.rda")
 #########################################################
 # fourth recipe, from lasso all variables 
 
@@ -107,13 +107,13 @@ recipe_4 %>%
   prep() %>% 
   bake(new_data = NULL)
 
-save(recipe_4, file = "attempt_1/results/recipe_4.rda")
+save(recipe_4, file = "attempt_3/results/recipe_4.rda")
 
 ##################################################################################
 # log version 
 
 recipe_5 <- recipe(y ~ x014 + x017 + x102 + x105 + x108 + x146 + x186 +
-                     x477 + x561 + x567 + x568, x581 + x619 +x622 + x740 +x750, data = train_data) %>% 
+                     x477 + x561 + x567 + x568, x581 + x619 +x622 + x740 +x750, data = train) %>% 
   step_nzv(all_predictors()) %>% 
   step_normalize(all_numeric_predictors()) %>% 
   step_impute_mean(all_numeric_predictors()) %>% 

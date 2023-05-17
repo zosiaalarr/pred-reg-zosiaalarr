@@ -59,5 +59,5 @@ svm_poly_tictoc <- tibble(model = time_log[[1]]$msg,
                           runtime = time_log[[1]]$toc - time_log[[1]]$tic)
 
 
-save(svm_poly_tune, svm_poly_tictoc, 
+save(svm_poly_tune, svm_poly_tictoc, svm_poly_workflow,
      file = "attempt_3/results/svm_poly_tuned.rda" )
