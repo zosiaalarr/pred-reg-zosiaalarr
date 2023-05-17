@@ -1,7 +1,9 @@
 library(tidymodels) 
 library(tidyverse)
 library(vip)
-load("results/initial_setup.rda")
+library(randomForest)
+library(caret)
+load("attempt_3/results/initial_setup.rda")
 
 set.seed(5)
 
@@ -79,3 +81,22 @@ rf_fit <- fit(rf_wkflw_final, data = train_data)
 rf_fit %>% 
   extract_fit_parsnip() %>% 
   vip::vip()
+
+#####################################################
+# build rf model 
+rf_import <- randomForest(y ~., data = train, ntree = 1000)
+
+# get variable importance 
+var_importance <- varImp(rf_import)
+
+# extract var names 
+var_names <- rownames(var_importance)
+
+# sort variable names based on importance 
+sorted_var_names <- var_names[order(var_importance$Overall, decreasing = TRUE)]
+
+# print sorted varible names 
+print(sorted_var_names)
+
+save(sorted_var_names, file = "attempt_3/results/sorted_var_names")
+
