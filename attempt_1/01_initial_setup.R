@@ -12,19 +12,20 @@ registerDoMC(cores = 8)
 
 
 
-train_1 <- read_csv("data/raw/train.csv")
+train_1 <- read_csv("data/raw/train.csv" )
 
-test_2 <- read_csv("data/raw/test.csv")
+test_2 <- read_csv("data/raw/test.csv" )
 
 my_split <- initial_split(train_1, prop = .75, strata = y)
 
-train <- training(my_split)
+train <- training(my_split) 
+train <- na.omit(train)
 
 test <- testing(my_split)
 
 data_folds <- vfold_cv(train, folds = 5, repeats = 3)
 
-save(train_1, test_2, test, train, data_folds, file = "attempt_3/results/initial_setup.rda")
+save(train_1, test_2, test, train, data_folds, file =  "attempt_3/results/initial_setup.rda" )
 
 
 
@@ -54,7 +55,7 @@ init_recipe %>%
   prep() %>% 
   bake(new_data = NULL)
 
-save(test_data, train_data, data_folds, init_recipe, file = "results/initial_setup.rda")
+save(test_data, train_data, data_folds, init_recipe, file =  "results/initial_setup.rda" )
 
 ###########################################################
 # second recipe
@@ -69,7 +70,7 @@ recipe_2 %>%
   prep() %>% 
   bake(new_data = NULL)
 
-save(recipe_2, file = "results/recipe_2.rda")
+save(recipe_2, file =  "results/recipe_2.rda" )
 
 ###############################################################
 # third recipe, from lasso
@@ -86,7 +87,7 @@ recipe_3 %>%
   prep() %>% 
   bake(new_data = NULL)
 
-save(recipe_3, file = "attempt_3/results/recipe_3.rda")
+save(recipe_3, file =  "attempt_3/results/recipe_3.rda" )
 #########################################################
 # fourth recipe, from lasso all variables 
 
@@ -107,7 +108,7 @@ recipe_4 %>%
   prep() %>% 
   bake(new_data = NULL)
 
-save(recipe_4, file = "attempt_3/results/recipe_4.rda")
+save(recipe_4, file =  "attempt_3/results/recipe_4.rda" )
 
 ##################################################################################
 # log version 
@@ -124,5 +125,43 @@ recipe_5 %>%
   bake(new_data = NULL)
 View(recipe_5)
 
-save(recipe_5, file = "results/recipe_5.rda")
+save(recipe_5, file =  "results/recipe_5.rda" )
+
+
+
+#####################################################################
+recipe_6 <- recipe(y ~ x146 + x105  + x102 +  x755 +  x059 +  x702 +  x753 +  x203 +  x561 +  x724 +  x118 +  x014 +
+ x073  + x420 +  x670 +  x548 +  x366  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
+ x636, data = train) %>% 
+  step_nzv(all_predictors()) %>% 
+  step_normalize(all_numeric_predictors()) %>% 
+  step_impute_knn(all_numeric_predictors()) %>% 
+  step_corr(all_predictors()) %>%  
+  step_YeoJohnson()
+  
+recipe_6 %>% 
+  prep() %>% 
+  bake(new_data = NULL)
+View(recipe_6)
+save(recipe_6, file = "attempt_3/results/recipe_6.rda")
+####################################################
+#recipe 7, rf + lasso (recipe 3)
+recipe_7 <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 + x111 + x116 + x135 + x146 +
+                     x186 + x253 + x265 + x284 + x286 + x302 + x317 + x328 + x343 + x365 + x366 + x369 +
+                     x425 + x427 + x447 + x146 + x105 +  x755 +  x059 +  x702 +  x753 +  x203 +  x561 +  x724 +  x118 +  x014 +
+                     x073  + x420 +  x670 +  x548 +  x366  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
+                     x636, data = train) %>% 
+  step_nzv(all_predictors()) %>% 
+  step_normalize(all_numeric_predictors()) %>% 
+  step_impute_knn(all_numeric_predictors()) %>% 
+  step_corr(all_predictors()) %>%  
+  step_YeoJohnson()
+
+recipe_7 %>% 
+  prep() %>% 
+  bake(new_data = NULL)
+
+save(recipe_7, file =  "attempt_3/results/recipe_7.rda" )
+
+
 

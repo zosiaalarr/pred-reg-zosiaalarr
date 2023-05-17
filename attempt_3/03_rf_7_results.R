@@ -16,15 +16,18 @@ rf_workflow <- rf_workflow %>%
 final_fit <- fit(rf_workflow, train_1)
 
 
+
 data_pred <- predict(final_fit, test_2) %>% 
   bind_cols(test_2 %>% select(id))
 
-sub_21 <- data_pred %>% 
+show_best(rf_tune)
+
+sub_22 <- data_pred %>% 
   tibble() %>% 
   rename(y = .pred)
 
 
 
-write_csv(sub_21, "attempt_3/submissions/submission_21.csv")
+write_csv(sub_22, "attempt_3/submissions/submission_22.csv")
 
 

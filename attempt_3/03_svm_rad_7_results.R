@@ -1,9 +1,10 @@
 library(tidymodels)
 library(tidyverse)
+set.seed(5)
 
 tidymodels_prefer()
 
-load("attempt_3/results/svm_radial_7_tuned.rda")
+load("attempt_3/results/svm_rad_7_tuned.rda")
 load("attempt_3/results/initial_setup.rda")
 
 svm_radial_workflow <- svm_radial_workflow %>% 

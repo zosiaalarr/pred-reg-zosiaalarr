@@ -23,7 +23,9 @@ svm_radial_model <- svm_rbf(
   set_engine("kernlab")
 
 svm_radial_params <- extract_parameter_set_dials(svm_radial_model) %>% 
-  update(rbf_sigma = rbf_sigma(c(.00300, .00316)))
+  update(rbf_sigma = rbf_sigma(c(.002, .0035)), trans = NULL)
+
+
 
 svm_radial_grid <- grid_regular(svm_radial_params, levels = 5) 
 
