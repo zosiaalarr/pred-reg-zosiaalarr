@@ -4,7 +4,7 @@ set.seed(5)
 
 tidymodels_prefer()
 
-load("attempt_3/results/svm_rad_7_tuned.rda")
+load("attempt_3/results/svm_rad_8_tuned.rda")
 load("attempt_3/results/initial_setup.rda")
 
 svm_radial_workflow <- svm_radial_workflow %>% 
@@ -20,9 +20,9 @@ final_fit <- fit(svm_radial_workflow, train_1)
 data_pred <- predict(final_fit, test_2) %>% 
   bind_cols(test_2 %>% select(id))
 
-sub_19 <- data_pred %>% 
-  tibble() %>% 
-  rename(y = .pred)
+# sub_19 <- data_pred %>% 
+#   tibble() %>% 
+#   rename(y = .pred)
 
 svm_radial_tune %>% 
   show_best() 
