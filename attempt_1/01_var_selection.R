@@ -26,6 +26,10 @@ lasso_mod <- linear_reg(mode = "regression",
 lasso_params <- extract_parameter_set_dials(lasso_mod) %>% 
   update(penalty = penalty(range = c(0,5)))
 
+
+
+penalty()
+
 lasso_grid <- grid_regular(lasso_params, levels = 5)
 
 lasso_workflow <- workflow() %>% 
@@ -47,7 +51,10 @@ load("data/lasso_variables.rda")
 
 lasso_tidy <- lasso_fit %>% 
   tidy() %>% 
-  filter(estimate != 0)
+  filter(estimate == 0) %>% 
+  pull(term)
+
+#put those term in a step_rm() step_rm(all_of(lasso_vars_zero))
 
 View(lasso_tidy)
 
@@ -99,4 +106,6 @@ sorted_var_names <- var_names[order(var_importance$Overall, decreasing = TRUE)]
 print(sorted_var_names)
 
 save(sorted_var_names, file = "attempt_3/results/sorted_var_names")
+
+# note: for svm do an interaction, do step_interact(~all_numeric_predictors()^2)
 
