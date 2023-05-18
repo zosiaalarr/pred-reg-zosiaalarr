@@ -101,5 +101,24 @@ recipe_4 %>%
 
 save(recipe_4, file = "attempt_4/results/recipe_4.rda")
 
+###############################################################
+#recipe 7, rf + lasso (recipe 3)
+recipe_7 <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 + x111 + x116 + x135 + x146 +
+                     x186 + x253 + x265 + x284 + x286 + x302 + x317 + x328 + x343 + x365 + x366 + x369 +
+                     x425 + x427 + x447 + x146 + x105 +  x755 +  x059 +  x702 +  x753 +  x203 +  x561 +  x724 +  x118 +  x014 +
+                     x073  + x420 +  x670 +  x548 +  x366  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
+                     x636, data = train) %>% 
+  step_nzv(all_predictors()) %>% 
+  step_normalize(all_numeric_predictors()) %>% 
+  step_impute_knn(all_numeric_predictors()) %>% 
+  step_corr(all_predictors()) %>%  
+  step_YeoJohnson()
+
+recipe_7 %>% 
+  prep() %>% 
+  bake(new_data = NULL)
+
+save(recipe_7, file =  "attempt_4/results/recipe_7.rda" )
+
 
 

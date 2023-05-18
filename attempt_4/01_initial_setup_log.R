@@ -6,22 +6,21 @@ set.seed(5)
 registerDoMC(cores = 8)
 
 
-train_1 <- read_csv("data/raw/train.csv")
+train_1 <- read_csv("data/raw/train.csv") 
 
 test_2 <- read_csv("data/raw/test.csv")
 
 my_split <- initial_split(train_1, prop = .75, strata = y)
 
-train_log <- training(my_split) %>% 
-  mutate(y = log(y))
+train <- training(my_split)
 
 test <- testing(my_split)
 
 
 
-data_folds <- vfold_cv(train_log, folds = 5, repeats = 3)
+data_folds <- vfold_cv(train, folds = 5, repeats = 3)
 
-save(train_1, test_2, test, train_log, data_folds, file = "attempt_4/results/initial_setup_log.rda")
+save(train_1, test_2, test, train, data_folds, file = "attempt_4/results/initial_setup_log.rda")
 
 ###########################################################
 #recipe 7, rf + lasso (recipe 3)
@@ -31,6 +30,7 @@ recipe_log <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 +
                      x073  + x420 +  x670 +  x548 +  x366  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
                      x636, data = train_log) %>% 
   step_nzv(all_predictors()) %>% 
+  step_log(y) %>% 
   step_normalize(all_numeric_predictors()) %>% 
   step_impute_knn(all_numeric_predictors()) %>% 
   step_corr(all_predictors()) %>%  
