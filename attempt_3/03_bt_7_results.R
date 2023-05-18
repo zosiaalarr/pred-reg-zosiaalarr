@@ -19,13 +19,13 @@ final_fit <- fit(bt_workflow, train_1)
 data_pred <- predict(final_fit, test_2) %>% 
   bind_cols(test_2 %>% select(id))
 
-# sub_15 <- data_pred %>% 
-#   tibble() %>% 
-#   rename(y = .pred)
+ sub_23 <- data_pred %>% 
+  tibble() %>%
+  rename(y = .pred)
 
 bt_tune %>% 
   show_best() 
 
-#write_csv(sub_15, "attempt_3/submissions/submission_15.csv")
+write_csv(sub_23, "attempt_3/submissions/submission_23.csv")
 
 
