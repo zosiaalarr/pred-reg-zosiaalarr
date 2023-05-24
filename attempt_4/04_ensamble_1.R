@@ -10,6 +10,7 @@ tidymodels_prefer()
 load("attempt_4/results/svm_rad_8_tuned.rda")
 #load("attempt_4/results/en_7_tuned.rda" )
 load("attempt_4/results/rf_7_tuned.rda")
+load("attempt_4/results/svm_poly_7_tuned.rda")
 
 # Load split data object & get testing data
 load("attempt_4/results/initial_setup.rda")
@@ -23,7 +24,8 @@ data_st <-
   stacks() %>%
   #add_candidates(en_tune) %>% # 15 models 
   add_candidates(rf_tune) %>% # 25 models 
-  add_candidates(svm_radial_tune) # 1 model 
+  add_candidates(svm_radial_tune) %>%  # 1 model 
+  add_candidates(svm_poly_tune)
 
 # looks at all these models, asigns some to 0 and a coeficient to others 
 
@@ -74,5 +76,5 @@ data_test <-
   bind_cols(predict(data_model_fit, .)) %>%
   select(id, .pred) %>% 
   rename(y = .pred)
-write_csv(data_test,"attempt_4/submissions/submission_28.csv")
+write_csv(data_test,"attempt_4/submissions/submission_30.csv")
 

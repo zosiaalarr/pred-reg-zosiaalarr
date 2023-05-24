@@ -3,19 +3,20 @@ library(tidyverse)
 library(vip)
 library(randomForest)
 library(caret)
-load("attempt_3/results/initial_setup.rda")
+load("attempt_4/results/initial_setup.rda")
 
 set.seed(5)
 
-# init_recipe <- recipe(y ~., data = train_data) %>% 
-#   #step_rm(id) %>% 
-#   step_nzv(all_predictors()) %>% 
-#   step_normalize(all_numeric_predictors()) %>% 
-#   step_impute_mean(all_numeric_predictors())
+ init_recipe <- recipe(y ~., data = train) %>% 
+   step_rm(id) %>% 
+   step_corr(all_predictors()) %>% 
+  step_nzv(all_predictors()) %>% 
+   step_normalize(all_numeric_predictors()) %>% 
+   step_impute_mean(all_numeric_predictors())
 # 
-# init_recipe %>% 
-#   prep() %>% 
-#   bake(new_data = NULL)
+ init_recipe %>% 
+   prep() %>% 
+   bake(new_data = NULL)
 
 set.seed(23)
 lasso_mod <- linear_reg(mode = "regression",
@@ -49,14 +50,22 @@ save(lasso_fit, file = "data/lasso_variables.rda")
 
 load("data/lasso_variables.rda")
 
+
+
 lasso_tidy <- lasso_fit %>% 
   tidy() %>% 
-  filter(estimate == 0) %>% 
+  filter(estimate <= -0.7782360
+ | estimate >= 0.7992458
+) %>% 
   pull(term)
 
 #put those term in a step_rm() step_rm(all_of(lasso_vars_zero))
 
 View(lasso_tidy)
+
+
+
+
 
 
 
@@ -82,7 +91,7 @@ rf_tune <- rf_workflow %>%
 rf_wkflw_final <- rf_workflow %>% 
   finalize_workflow(select_best(rf_tune, metric = "rmse"))
 
-rf_fit <- fit(rf_wkflw_final, data = train_data)
+rf_fit <- fit(rf_wkflw_final, data = train)
 
 # view estimate parameters
 rf_fit %>% 

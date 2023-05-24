@@ -119,6 +119,62 @@ recipe_7 %>%
   bake(new_data = NULL)
 
 save(recipe_7, file =  "attempt_4/results/recipe_7.rda" )
+######################################################
+#log version of 7 
 
+recipe_log <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 + x111 + x116 + x135 + x146 +
+                     x186 + x253 + x265 + x284 + x286 + x302 + x317 + x328 + x343 + x365 + x366 + x369 +
+                     x425 + x427 + x447 + x146 + x105 +  x755 +  x059 +  x702 +  x753 +  x203 +  x561 +  x724 +  x118 +  x014 +
+                     x073  + x420 +  x670 +  x548 +  x366  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
+                     x636, data = train) %>% 
+  step_nzv(all_predictors()) %>% 
+  step_log(y) %>% 
+  step_normalize(all_numeric_predictors()) %>% 
+  step_impute_knn(all_numeric_predictors()) %>% 
+  step_corr(all_predictors()) %>%  
+  step_YeoJohnson()
 
+recipe_log %>% 
+  prep() %>% 
+  bake(new_data = NULL)
+
+save(recipe_log, file =  "attempt_4/results/recipe_log.rda" )
+######################################################
+# interact version 
+recipe_8 <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 + x111 + x116 + x135 + x146 +
+                       x186 + x253 + x265 + x284 + x286 + x302 + x317 + x328 + x343 + x365 + x366 + x369 +
+                       x425 + x427 + x447 + x146 + x105 +  x755 +  x059 +  x702 +  x753 +  x203 +  x561 +  x724 +  x118 +  x014 +
+                       x073  + x420 +  x670 +  x548 +  x366  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
+                       x636, data = train) %>% 
+  step_nzv(all_predictors()) %>% 
+  step_interact(~x014:starts_with("x")) %>% 
+  step_normalize(all_numeric_predictors()) %>% 
+  step_impute_knn(all_numeric_predictors()) %>% 
+  step_corr(all_predictors()) %>%  
+  step_YeoJohnson()
+
+recipe_8 %>% 
+  prep() %>% 
+  bake(new_data = NULL)
+save(recipe_8, file =  "attempt_4/results/recipe_8.rda" )
+
+#########################
+# rf regular version 
+recipe_9 <- recipe(y ~ x105 + x561 + x702 + x014 + x651 + x366 + x662 + x548 + x420 + x685 + x017 + x022 + x043 + x086 + x102 
+                   + x108 + x111 + x116 + x135 + x146 +
+                     x186 + x253 + x265 + x284 + x286 + x302 + x317 + x328 + x343 + x365 + x366 + x369 +
+                     x425 + x427 + x447 + x146 + x105 +  x755 +  x059 +  x702 +  x753 +  x203 +   x724 +  x118 +  x014 +
+                     x073  + x420 +  x670 +  x548  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
+                     x636, 
+                  data = train ) %>% 
+  step_nzv(all_predictors()) %>% 
+  step_normalize(all_numeric_predictors()) %>% 
+  step_impute_knn(all_numeric_predictors()) %>% 
+  step_corr(all_predictors()) %>%  
+  step_YeoJohnson()
+
+recipe_9 %>% 
+  prep() %>% 
+  bake(new_data = NULL)
+save(recipe_9, file =  "attempt_4/results/recipe_9.rda" )
 
