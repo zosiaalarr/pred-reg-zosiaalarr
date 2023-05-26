@@ -10,17 +10,17 @@ train_1 <- read_csv("data/raw/train.csv")
 
 test_2 <- read_csv("data/raw/test.csv")
 
-my_split <- initial_split(train_1, prop = .75, strata = y)
-
-train <- training(my_split)
-
-test <- testing(my_split)
+ my_split <- initial_split(train_1, prop = .75, strata = y)
+# 
+ train <- training(my_split)
+# 
+ test <- testing(my_split)
 
 
 
 data_folds <- vfold_cv(train, folds = 5, repeats = 3)
 
-save(train_1, test_2, test, train, data_folds, file = "attempt_4/results/initial_setup.rda")
+save(train_1,test_2, test, train, data_folds, file = "attempt_4/results/initial_setup.rda")
 
 #############
 # init recipe 

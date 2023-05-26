@@ -9,7 +9,7 @@ tidymodels_prefer()
 set.seed(5)
 
 load("attempt_4/results/initial_setup.rda")
-load("attempt_4/results/recipe_9.rda")
+load("attempt_4/results/recipe_7.rda")
 
 #########################
 # Parallel processing
@@ -35,7 +35,7 @@ svm_radial_grid <- grid_regular(svm_radial_params, levels = 5)
 
 svm_radial_workflow <- workflow() %>% 
   add_model(svm_radial_model) %>% 
-  add_recipe(recipe_9)
+  add_recipe(recipe_7)
 
 # Tune grid 
 # clear and start timer
