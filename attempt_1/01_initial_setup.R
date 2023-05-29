@@ -9,6 +9,7 @@ library(naniar)
 library(doMC)
 set.seed(5)
 registerDoMC(cores = 8)
+set.seed(5)
 
 
 
@@ -32,8 +33,10 @@ save(train_1, test_2, test, train, data_folds, file =  "attempt_3/results/initia
 ###########################################################
 # eda
 
-ggplot(train_data, aes(x = y)) + 
-  geom_histogram()
+ggplot(train, aes(x = y)) + 
+  geom_histogram(color = "white", fill = "darkolivegreen4") + 
+  theme_bw()
+  
 
 ggplot(train_data, aes(x = sqrt(y))) + 
   geom_histogram()

@@ -4,7 +4,7 @@ library(naniar)
 library(doMC)
 set.seed(5)
 registerDoMC(cores = 8)
-
+set.seed(4)
 
 train_1 <- read_csv("data/raw/train.csv")
 
@@ -20,7 +20,7 @@ test_2 <- read_csv("data/raw/test.csv")
 
 data_folds <- vfold_cv(train, folds = 5, repeats = 3)
 
-save(train_1,test_2, test, train, data_folds, file = "attempt_4/results/initial_setup.rda")
+save( train_1, test_2, test, train, data_folds, file = "attempt_4/results/initial_setup.rda")
 
 #############
 # init recipe 
@@ -101,6 +101,7 @@ recipe_4 %>%
 
 save(recipe_4, file = "attempt_4/results/recipe_4.rda")
 
+
 ###############################################################
 #recipe 7, rf + lasso (recipe 3)
 recipe_7 <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 + x111 + x116 + x135 + x146 +
@@ -147,7 +148,7 @@ recipe_8 <- recipe(y ~ x014 + x017 + x022 + x043 + x086 + x102 + x105 + x108 + x
                        x073  + x420 +  x670 +  x548 +  x366  + x244  + x253  + x147 +  x257  + x725 +  x365 +  x619 + 
                        x636, data = train) %>% 
   step_nzv(all_predictors()) %>% 
-  step_interact(~x014:starts_with("x")) %>% 
+  step_interact(x014: starts_with("x")) %>% 
   step_normalize(all_numeric_predictors()) %>% 
   step_impute_knn(all_numeric_predictors()) %>% 
   step_corr(all_predictors()) %>%  
