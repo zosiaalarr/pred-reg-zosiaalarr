@@ -1,0 +1,60 @@
+---
+title: "Executive Summary: Regression Prediction"
+subtitle: "Data Science 3 with R (STAT 301-3)"
+author: "Zosia Alarr"
+date: "May 29, 2023"
+
+format:
+  html:
+    toc: true
+    embed-resources: true
+    code-fold: show
+    link-external-newwindow: true
+    
+execute:
+  warning: false
+
+from: markdown+emoji 
+---
+
+## Github Repo Link
+
+[https://github.com/zosiaalarr/pred-reg-zosiaalarr.git](https://github.com/zosiaalarr/pred-reg-zosiaalarr.git)
+
+## Executive Summary
+
+The goal of this project was to predict a numerical outcome variable based on over 750 other numerical variables. The representation and importance of these variables were unknown, posing a challenge in determining their significance.
+
+The data consisted of two CSV files from an unknown source. One file contained the training data, and the other contained the testing data. To avoid overfitting, the training data was further split into a training and testing set, with 25% of the data reserved for testing. The remaining data was used for cross-validation with 5 folds and 3 repeats. The outcome variable, `y`, exhibited a somewhat right-skewed distribution, indicating the potential benefit of applying a log transformation. 
+
+![](y_dis.png) 
+
+A check for missing values was performed, revealing that none of the variables had more than 20% missing observations, thus justifying the imputation of missing values. 
+
+Initially, a lasso variable selection method was employed by creating a "kitchen sink" recipe and running a linear regression model. This approach yielded over 400 variables with non-zero estimates. To narrow down the list, the penalty range was updated to range(0,5), resulting in 20 variables with more substantial estimates. A recipe was then created using these 20 variables, along with `step_nzv`, `step_normalize`, `step_corr`, and `step_impute_mean`. Subsequently, 8 models (mars, svm poly, svm radial, elastic net, random forest, k-nearest neighbors, neural network, boosted tree) were run and fitted to the entire training and testing set. Additionally, a CSV file containing the predicted `y` values and their corresponding IDs was submitted for the official test on Kaggle. The performance metric of choice was an RMSE value. These files were uploaded to Kaggle and their RMSE values were calcutaed based on the model's predicted `y` values compared to the test sets official `y` value. The models had poor RMSE values ranging from 10 to 9.5. However, the elastic net, random forest, and svm radial models demonstrated relatively lower RMSE values.
+
+![](8_mods.png)
+
+
+Another variable selection technique was employed using the `carat` and `randomForest` packages. A random forest model was run, and using functions from the previously cited packages, a vector with variables arranged in decreasing order of importance values was generated. The top 25 variables from this vector were selected, and a new recipe was created, combining these 25 random forest variables with the previous top 20 lasso variables. This recipe was utilized in elastic net, random forest, boosted tree, and svm radial models. Interestingly, the random forest model performed the best with an RMSE value of 7.6; however, when fitted to the actual testing data on Kaggle, the svm radial model performed the best with an RMSE value of 9.062.
+
+![](best_mods.png)
+
+The tuning parameter `cost` in the svm radial model was observed, and the range was adjusted to align closer to the best-performing variation of the model (2,35). The model was run and fitted to the entire training and testing set. Upon submitting the predictions to the true testing set, they performed slightly better than the svm radial model with default tuning parameters, resulting in an RMSE value of 9.05819. 
+
+![](sub_24_table.png)
+
+
+The model also ran with great efficiency. 
+
+![SVM Radial runtime in mins](svm_time.png)
+
+
+
+The next best preforming model an the svm radial model with a different updated `cost` range (0.2,25). The predictions from this model received an RMSE score of 9.05832. 
+
+
+The range of the tuning parameter `rbf_sigma` was also adjusted, but it did not outperform the default range.
+
+Overall, the SVM radial model performed best on the actual test set when using a model consisting of variables from a lasso and random forest variable selection techniques. In future attempts on this project, it would be beneficial to include a log transformation on the outcome variable as well as utilizing other variable selection techniques like MARS.  
+

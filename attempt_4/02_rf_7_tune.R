@@ -6,7 +6,7 @@ library(tictoc)
 library(stacks)
 set.seed(5)
 
-registerDoMC(cores = 8)
+registerDoMC(cores = 4)
 
 load("attempt_4/results/initial_setup.rda")
 load("attempt_4/results/recipe_7.rda")

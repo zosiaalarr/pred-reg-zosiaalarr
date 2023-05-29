@@ -25,7 +25,7 @@ svm_radial_model <- svm_rbf(
   set_engine("kernlab")
 
 svm_radial_params <- extract_parameter_set_dials(svm_radial_model) %>% 
-  update(cost = cost(range = c(2,35), trans = NULL)
+  update(cost = cost(range = c(0.25,25), trans = NULL)
   )
 
 cost()

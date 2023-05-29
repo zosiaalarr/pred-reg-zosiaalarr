@@ -14,15 +14,15 @@ svm_radial_workflow <- svm_radial_workflow %>%
 
 # fit training data to final workflow 
 
-final_fit <- fit(svm_radial_workflow, train_1)
+final_fit <- fit(svm_radial_workflow, train)
 
 
-data_pred <- predict(final_fit, test_2) %>% 
-  bind_cols(test_2 %>% select(id)) 
+data_pred <- predict(final_fit, test) %>% 
+  bind_cols(test %>% select(id)) 
 
 sub_log <- data_pred %>% 
-  tibble() %>% 
-  rename(y = .pred) 
+  mutate(y = exp(.pred)) %>% 
+  select(-c(.pred))
  
 
 svm_radial_tune %>% 

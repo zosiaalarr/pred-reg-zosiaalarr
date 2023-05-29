@@ -1,5 +1,6 @@
 library(tidymodels)
 library(tidyverse)
+library(kableExtra)
 set.seed(5)
 
 tidymodels_prefer()
@@ -25,7 +26,13 @@ sub_24 <- data_pred %>%
    rename(y = .pred)
 
 svm_radial_tune %>% 
-  show_best() 
+  show_best() %>% 
+  kbl() %>% 
+  kable_classic() %>% 
+  save_kable("sub_24_table.png", zoom = 10) 
+
+
+
 
 
 
