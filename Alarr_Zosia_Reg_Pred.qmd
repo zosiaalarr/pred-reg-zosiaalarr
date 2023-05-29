@@ -36,7 +36,7 @@ Initially, a lasso variable selection method was employed by creating a "kitchen
 ![](8_mods.png)
 
 
-Another variable selection technique was employed using the `carat` and `randomForest` packages. A random forest model was run, and using functions from the previously cited packages, a vector with variables arranged in decreasing order of importance values was generated. The top 25 variables from this vector were selected, and a new recipe was created, combining these 25 random forest variables with the previous top 20 lasso variables. This recipe was utilized in the elastic net, random forest, boosted tree, and svm radial models in my 4th attempt. Interestingly, the random forest model performed the best with an RMSE value of 7.6; however, when fitted to the actual testing data on Kaggle, the svm radial model performed the best with an RMSE value of 9.062.
+Another variable selection technique was employed using the `carat` and `randomForest` packages. A random forest model was run, and using functions from the previously cited packages, a vector with variables arranged in decreasing order of importance values was generated. The top 25 variables from this vector were selected, and a new recipe was created (recipe 7), combining these 25 random forest variables with the previous top 20 lasso variables. This recipe was utilized in the elastic net, random forest, boosted tree, and svm radial models in my 4th attempt. Interestingly, the random forest model performed the best with an RMSE value of 7.6; however, when fitted to the actual testing data on Kaggle, the svm radial model performed the best with an RMSE value of 9.062.
 
 ![](best_mods.png)
 
