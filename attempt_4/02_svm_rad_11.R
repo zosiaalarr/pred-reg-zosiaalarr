@@ -9,7 +9,7 @@ tidymodels_prefer()
 set.seed(5)
 
 load("attempt_4/results/initial_setup.rda")
-load("attempt_4/results/recipe_8.rda")
+load("attempt_4/results/recipe_7.rda")
 
 #########################
 # Parallel processing
